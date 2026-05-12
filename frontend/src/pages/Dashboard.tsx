@@ -142,16 +142,16 @@ export default function Dashboard() {
   return (
     <div className="space-y-10 pb-10">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-900 p-10 rounded-[3rem] text-white shadow-2xl relative overflow-hidden">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-slate-900 p-10 rounded-[3rem] text-white shadow-2xl relative overflow-hidden z-0">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-600/20 to-transparent pointer-events-none" />
         <div className="space-y-2 relative z-10">
           <Badge className="bg-blue-600 text-[10px] font-black uppercase tracking-widest mb-2 border-none">Painel de Monitoramento Global</Badge>
           <h1 className="text-4xl font-black tracking-tighter uppercase leading-none">Nexus <span className="text-blue-500">Security</span> Center</h1>
-          <p className="text-slate-400 font-medium text-sm max-w-xl italic">Controle em tempo real de integridade fiscal e prevenção de conluio logístico.</p>
+          <p className="text-slate-200 font-medium text-sm max-w-xl italic">Controle em tempo real de integridade fiscal e prevenção de conluio logístico.</p>
         </div>
-        <div className="flex items-center gap-6 relative z-10">
+        <div className="flex items-center gap-6 relative z-10 backdrop-blur-md bg-white/5 p-4 rounded-3xl border border-white/10 shadow-lg">
           <div className="text-right">
-             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Unidade Master</p>
+             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Unidade Master</p>
              <p className="font-bold text-white uppercase text-sm">{profile?.organizationId || 'Nexus ERP'}</p>
           </div>
           <div className="h-14 w-14 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-500 shadow-inner">
@@ -202,7 +202,7 @@ export default function Dashboard() {
           <Card key={kpi.title} className="border-none shadow-xl ring-1 ring-slate-200 overflow-hidden group hover:-translate-y-1 transition-all duration-300 rounded-[2rem]">
             <CardContent className="p-8">
               <div className="flex items-center justify-between mb-4">
-                <div className={cn("p-3 rounded-2xl", kpi.bgColor, kpi.color)}>
+                <div className={cn("flex items-center justify-center w-12 h-12 rounded-2xl shrink-0", kpi.bgColor, kpi.color)}>
                   <kpi.icon className="h-6 w-6" />
                 </div>
                 <Badge variant="outline" className="font-black text-[9px] uppercase tracking-widest border-slate-100 text-slate-400">{kpi.trend}</Badge>
