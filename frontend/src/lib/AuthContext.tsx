@@ -67,27 +67,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     init();
 
-    // Dev Mode Auto-Login if Supabase check fails or no session
-    setTimeout(() => {
-      if (loading && process.env.NODE_ENV !== 'production' && !user) {
-        console.log('Dev Mode: Timeout reached, using mock profile...');
-        const devUser = '00000000-0000-0000-0000-000000000001';
-        const devOrg = '00000000-0000-0000-0000-000000000002';
-        const devUnit = '00000000-0000-0000-0000-000000000003';
-
-        setUser({ id: devUser, email: 'dev@metaerp.com' } as any);
-        setProfile({
-          id: devUser,
-          fullName: 'Desenvolvedor Local',
-          role: 'OWNER',
-          organizationId: devOrg,
-          createdAt: Date.now()
-        } as any);
-        setUnits([{ id: devUnit, name: 'Unidade de Teste', company_id: devOrg }]);
-        setCurrentUnitState({ id: devUnit, name: 'Unidade de Teste', company_id: devOrg });
-        setLoading(false);
-      }
-    }, 2000);
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('AuthProvider Event:', event);
