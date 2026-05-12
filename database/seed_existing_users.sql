@@ -6,7 +6,7 @@ INSERT INTO companies (id, name, plan)
 VALUES ('00000000-0000-0000-0000-000000000001', 'Meta Vidros ERP', 'ENTERPRISE')
 ON CONFLICT (id) DO NOTHING;
 
--- 2. Create Profiles for the existing Auth users seen in screenshot
+-- 2. Create Profiles for the existing Auth users
 -- UID: 458a5dbd-3e94-436d-a12f-fbeaa47eeac0 (mayconabentes@gmail.com)
 INSERT INTO profiles (id, company_id, full_name, role)
 VALUES ('458a5dbd-3e94-436d-a12f-fbeaa47eeac0', '00000000-0000-0000-0000-000000000001', 'Maycon Abentes (Nexus Dev)', 'OWNER')
@@ -27,7 +27,13 @@ INSERT INTO profiles (id, company_id, full_name, role)
 VALUES ('2005363e-c898-4b6b-a884-4eb0b5714d2d', '00000000-0000-0000-0000-000000000001', 'Auditor Fiscal', 'AUDITOR')
 ON CONFLICT (id) DO UPDATE SET role = 'AUDITOR';
 
--- 3. Link Users to specific Units (Example permissions)
+-- UID: 524a961d-9268-460e-944e-1a64be989f46 (seguranca@nexus.com)
+INSERT INTO profiles (id, company_id, full_name, role)
+VALUES ('524a961d-9268-460e-944e-1a64be989f46', '00000000-0000-0000-0000-000000000001', 'Segurança Operacional', 'SECURITY')
+ON CONFLICT (id) DO UPDATE SET role = 'SECURITY';
+
+-- 3. Link Users to specific Units (Permissions)
+
 -- Linking Operador to all 3 Warehouses (GALPAO)
 INSERT INTO profile_units (profile_id, unit_id)
 SELECT '0f6fdb08-2d5e-47b6-a743-a9d16bccdd11', id FROM units WHERE type = 'GALPAO'
@@ -36,4 +42,18 @@ ON CONFLICT DO NOTHING;
 -- Linking Vendedor to all 3 Stores (LOJA)
 INSERT INTO profile_units (profile_id, unit_id)
 SELECT 'dc1123ca-9921-4448-8352-dc8566758dbb', id FROM units WHERE type = 'LOJA'
+ON CONFLICT DO NOTHING;
+
+-- Linking Auditor and Security to ALL units for monitoring
+INSERT INTO profile_units (profile_id, unit_id)
+SELECT '2005363e-c898-4b6b-a884-4eb0b5714d2d', id FROM units
+ON CONFLICT DO NOTHING;
+
+INSERT INTO profile_units (profile_id, unit_id)
+SELECT '524a961d-9268-460e-944e-1a64be989f46', id FROM units
+ON CONFLICT DO NOTHING;
+
+-- Owner (Maycon) also linked to all units
+INSERT INTO profile_units (profile_id, unit_id)
+SELECT '458a5dbd-3e94-436d-a12f-fbeaa47eeac0', id FROM units
 ON CONFLICT DO NOTHING;
