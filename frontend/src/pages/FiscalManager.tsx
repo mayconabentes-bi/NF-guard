@@ -42,6 +42,7 @@ import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/lib/supabase';
+import { ingestFiscalXmlUseCase } from '@/domains/fiscal/useCases/IngestFiscalXmlUseCase';
 
 export default function FiscalManager() {
   const { profile, currentUnit } = useAuth();
@@ -72,50 +73,27 @@ export default function FiscalManager() {
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !profile?.organizationId) return;
+    if (!file || !profile?.organizationId || !profile?.id) return;
 
     const reader = new FileReader();
     reader.onload = async (event) => {
       try {
         const xmlText = event.target?.result as string;
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+        
+        // Delega o processamento pesado e regras de validação para o Domínio
+        await ingestFiscalXmlUseCase.execute({
+          xmlText,
+          organizationId: profile.organizationId,
+          userId: profile.id,
+          unitId: currentUnit?.id || ''
+        });
 
-        // Advanced NF-e Parser
-        const infNFe = xmlDoc.getElementsByTagName('infNFe')[0];
-        const ide = xmlDoc.getElementsByTagName('ide')[0];
-        const emit = xmlDoc.getElementsByTagName('emit')[0];
-        const total = xmlDoc.getElementsByTagName('total')[0];
-        const items = xmlDoc.getElementsByTagName('det');
-        const accessKey = xmlDoc.getElementsByTagName('chNFe')[0]?.textContent || '';
-        const digestValue = xmlDoc.getElementsByTagName('DigestValue')[0]?.textContent || '';
-
-        const wmsData = {
-          accessKey,
-          digestValue,
-          number: ide?.getElementsByTagName('nNF')[0]?.textContent || '0',
-          issuer: emit?.getElementsByTagName('xNome')[0]?.textContent || 'Desconhecido',
-          date: new Date().toISOString(),
-          total: parseFloat(total?.getElementsByTagName('vNF')[0]?.textContent || '0'),
-          items: Array.from(items).map(item => {
-            const prod = item.getElementsByTagName('prod')[0];
-            return {
-              sku: prod.getElementsByTagName('cProd')[0]?.textContent || '',
-              name: prod.getElementsByTagName('xProd')[0]?.textContent || '',
-              qty: parseFloat(prod.getElementsByTagName('qCom')[0]?.textContent || '0'),
-              uom: prod.getElementsByTagName('uCom')[0]?.textContent || 'UN',
-              isHeavy: parseFloat(prod.getElementsByTagName('qCom')[0]?.textContent || '0') > 10 // Simple logic
-            };
-          })
-        };
-
-        console.log('Parsed XML Data:', wmsData);
-        await wmsService.ingestXML(wmsData, profile.organizationId, profile.id, currentUnit?.id || '');
         toast.success('Nota Fiscal Protocolada e Distribuída!');
         setIsImportOpen(false);
         fetchData();
-      } catch (error) {
-        toast.error('XML Inválido ou Assinatura Corrompida.');
+      } catch (error: any) {
+        console.error("Erro na ingestão:", error);
+        toast.error(error.message || 'XML Inválido ou Assinatura Corrompida.');
       }
     };
     reader.readAsText(file);
