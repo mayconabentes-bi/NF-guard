@@ -33,7 +33,8 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
-import { useAuth } from '@/lib/AuthContext';
+import { useAuth } from "@/lib/AuthContext";
+import { useTenant } from "@/domains/auth/contexts/TenantContext";
 import { FiscalNote, Product } from '@/types';
 import { fiscalService } from '@/lib/fiscalService';
 import { productService } from '@/lib/productService';
@@ -45,7 +46,8 @@ import { supabase } from '@/lib/supabase';
 import { ingestFiscalXmlUseCase } from '@/domains/fiscal/useCases/IngestFiscalXmlUseCase';
 
 export default function FiscalManager() {
-  const { profile, currentUnit } = useAuth();
+  const { profile } = useAuth();
+  const { currentUnit } = useTenant();
   const [notes, setNotes] = React.useState<any[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isProcessing, setIsProcessing] = React.useState<string | null>(null);

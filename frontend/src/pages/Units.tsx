@@ -29,7 +29,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu';
-import { useAuth } from '@/lib/AuthContext';
+import { useAuth } from "@/lib/AuthContext";
+import { useTenant } from "@/domains/auth/contexts/TenantContext";
 import { Unit } from '@/types';
 import { unitService } from '@/lib/unitService';
 import { wmsService } from '@/lib/wmsService';
@@ -39,7 +40,8 @@ import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
 export default function Units() {
-  const { profile, currentUnit } = useAuth();
+  const { profile } = useAuth();
+  const { currentUnit } = useTenant();
   const [units, setUnits] = React.useState<Unit[]>([]);
   const [searchTerm, setSearchTerm] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);

@@ -17,7 +17,8 @@ import {
   Boxes
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useAuth } from '@/lib/AuthContext';
+import { useAuth } from "@/lib/AuthContext";
+import { useTenant } from "@/domains/auth/contexts/TenantContext";
 import { wmsService } from '@/lib/wmsService';
 import { validateTokenUseCase } from '@/domains/workflow/useCases/ValidateTokenUseCase';
 import { fulfillTokenUseCase } from '@/domains/workflow/useCases/FulfillTokenUseCase';
@@ -33,7 +34,8 @@ import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 
 export default function WMSDistributed() {
-  const { profile, currentUnit } = useAuth();
+  const { profile } = useAuth();
+  const { currentUnit } = useTenant();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = React.useState<'ingest' | 'verify' | 'audit'>('ingest');
   const [loading, setLoading] = React.useState(false);

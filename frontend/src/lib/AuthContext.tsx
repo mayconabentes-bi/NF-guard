@@ -129,6 +129,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               full_name: invite.full_name || newProfile.full_name
             }).eq('id', uid);
 
+            if (invite.unit_id) {
+              await supabase.from('profile_units').insert({
+                profile_id: uid,
+                unit_id: invite.unit_id
+              });
+            }
+
             await supabase.from('user_invites').update({ status: 'ACCEPTED' }).eq('id', invite.id);
 
             setProfile({

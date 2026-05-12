@@ -99,7 +99,8 @@ const navGroups: NavGroup[] = [
 ];
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
-  const { user, loading, profile, currentUnit, setCurrentUnit, units } = useAuth();
+  const { user, loading, profile } = useAuth();
+  const { currentUnit, setCurrentUnit, units } = useTenant();
 
   if (loading) {
     return (

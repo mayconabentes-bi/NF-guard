@@ -17,7 +17,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useAuth } from '@/lib/AuthContext';
+import { useAuth } from "@/lib/AuthContext";
+import { useTenant } from "@/domains/auth/contexts/TenantContext";
 import { automationService } from '@/services/automationService';
 import { wmsService } from '@/lib/wmsService';
 import { validateTokenUseCase } from '@/domains/workflow/useCases/ValidateTokenUseCase';
@@ -26,7 +27,8 @@ import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
 export default function AntiFraudLab() {
-  const { profile, currentUnit } = useAuth();
+  const { profile } = useAuth();
+  const { currentUnit } = useTenant();
   const [lastTokenId, setLastTokenId] = React.useState<string | null>(null);
   const [logs, setLogs] = React.useState<{type: 'success' | 'error' | 'info' | 'warning', message: string, time: string}[]>([]);
   const [isSimulating, setIsSimulating] = React.useState(false);

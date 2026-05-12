@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { useAuth } from '@/lib/AuthContext';
+import { useAuth } from "@/lib/AuthContext";
+import { useTenant } from "@/domains/auth/contexts/TenantContext";
 import { wmsService } from '@/lib/wmsService';
 import { fulfillTokenUseCase } from '@/domains/workflow/useCases/FulfillTokenUseCase';
 import { toast } from 'sonner';
@@ -38,7 +39,8 @@ interface NFItem {
 }
 
 export default function StoreSales() {
-  const { profile, currentUnit } = useAuth();
+  const { profile } = useAuth();
+  const { currentUnit } = useTenant();
   const [loading, setLoading] = React.useState(false);
   const [nfData, setNfData] = React.useState<{
     accessKey: string;

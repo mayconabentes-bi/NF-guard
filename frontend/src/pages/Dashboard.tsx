@@ -30,7 +30,8 @@ import {
   Area
 } from 'recharts';
 import { automationService } from '@/services/automationService';
-import { useAuth } from '@/lib/AuthContext';
+import { useAuth } from "@/lib/AuthContext";
+import { useTenant } from "@/domains/auth/contexts/TenantContext";
 import { wmsService } from '@/lib/wmsService';
 import { useNavigate } from 'react-router-dom';
 export default function Dashboard() {
