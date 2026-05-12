@@ -30,16 +30,11 @@ export default function Login() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [selectedUnit, setSelectedUnit] = React.useState(OPERATIONAL_UNITS[0]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      // Set the unit in context before/after login
-      setCurrentUnit(selectedUnit);
-      localStorage.setItem('nexus_current_unit', JSON.stringify(selectedUnit));
-      
       const { error } = await signInWithEmail(email, password);
       if (error) throw error;
       
@@ -176,22 +171,6 @@ export default function Login() {
                 </div>
               </div>
 
-              {/* UNIT SELECTION */}
-              <div className="space-y-2">
-                <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Unidade Operacional</Label>
-                <div className="relative">
-                  <select
-                    className="w-full h-14 bg-slate-900/50 border border-white/5 rounded-sm px-4 text-slate-300 font-bold text-[10px] tracking-widest appearance-none focus:outline-none focus:border-cyan-500/50 transition-all uppercase"
-                    value={selectedUnit.id}
-                    onChange={(e) => setSelectedUnit(OPERATIONAL_UNITS.find(u => u.id === e.target.value)!)}
-                  >
-                    {OPERATIONAL_UNITS.map(u => (
-                      <option key={u.id} value={u.id} className="bg-slate-950 text-slate-300">{u.name}</option>
-                    ))}
-                  </select>
-                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 pointer-events-none" />
-                </div>
-              </div>
             </div>
 
             <Button className="w-full h-14 bg-cyan-600 hover:bg-cyan-500 text-slate-950 text-[10px] font-black uppercase tracking-[0.3em] shadow-[0_0_30px_rgba(8,145,178,0.2)] group transition-all" disabled={isLoading}>
