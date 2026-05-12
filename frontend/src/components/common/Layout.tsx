@@ -43,6 +43,7 @@ import {
   SidebarMenuButton,
   SidebarProvider,
   SidebarTrigger,
+  SidebarInset,
   useSidebar
 } from '@/components/ui/sidebar';
 import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
@@ -114,9 +115,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AppSidebar user={user} profile={profile} />
-        <main className="flex-1 overflow-y-auto bg-slate-50/50">
+      <AppSidebar user={user} profile={profile} />
+      <SidebarInset className="bg-slate-50/50 min-h-screen overflow-hidden flex flex-col">
+        <div className="flex-1 overflow-y-auto">
           <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-slate-200 bg-white/95 px-6 backdrop-blur shadow-sm">
             <div className="flex items-center gap-4">
               <SidebarTrigger className="text-slate-500 hover:text-slate-900" />
@@ -184,8 +185,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="p-6">
             {children}
           </div>
-        </main>
-      </div>
+        </div>
+      </SidebarInset>
     </SidebarProvider>
   );
 }
