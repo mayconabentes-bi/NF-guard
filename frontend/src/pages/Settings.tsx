@@ -158,13 +158,24 @@ export default function Settings() {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 pb-10">
-      {/* Sidebar Navigation */}
-      <aside className="w-full lg:w-80 shrink-0 space-y-6">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-black tracking-tighter text-slate-900 uppercase">Configurações</h1>
-          <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Nexus Core Cockpit • v2.0</p>
+    <div className="space-y-8 pb-10 animate-in fade-in duration-700">
+      {/* Header Premium */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200 pb-8">
+        <div className="space-y-2">
+          <Badge className="bg-slate-900 text-white border-none font-black text-[9px] uppercase tracking-[0.2em] px-3 shadow-sm">Gestão Estratégica</Badge>
+          <h1 className="text-4xl font-black tracking-tighter text-slate-900 uppercase flex items-center gap-3">
+             <div className="p-2 bg-slate-900 rounded-2xl shadow-xl shadow-slate-200">
+              <Settings className="h-8 w-8 text-white" />
+             </div>
+             Configurações Globais
+          </h1>
+          <p className="text-slate-500 font-medium text-lg tracking-tight">Gerenciamento de identidades corporativas, acessos e integrações.</p>
         </div>
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-8">
+        {/* Sidebar Navigation */}
+        <aside className="w-full lg:w-80 shrink-0 space-y-6">
 
         <nav className="space-y-2">
           {sidebarItems.map((item) => {
@@ -399,9 +410,11 @@ export default function Settings() {
                  </CardFooter>
               </Card>
            </div>
-        )}
-      </main>
-    </div>
+            </div>
+         )}
+       </main>
+     </div>
+   </div>
   );
 }
 
