@@ -2,21 +2,6 @@ import { supabase } from "./supabase";
 import { NFXML, WithdrawalToken, NFItem } from "@/types";
 import { automationService, EntityType } from "@/services/automationService";
 
-// Local cache for development mode when Supabase is unreachable
-const getMockCache = () => {
-  try {
-    return JSON.parse(localStorage.getItem('wms_mock_cache') || '[]');
-  } catch (e) {
-    return [];
-  }
-};
-
-const saveToMockCache = (item: any) => {
-  const cache = getMockCache();
-  cache.push(item);
-  localStorage.setItem('wms_mock_cache', JSON.stringify(cache));
-};
-
 export const wmsService = {
   // Processes XML and generates tokens
   async ingestXML(xmlData: any, organizationId: string, vendedorId: string, unitId: string) {
@@ -72,27 +57,6 @@ export const wmsService = {
       return xml.id;
     } catch (e) {
       console.error('ingestXML Error:', e);
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn('Dev Mode: Supabase error ignored, saving to local mock cache');
-        const mockId = crypto.randomUUID();
-        saveToMockCache({
-          id: mockId,
-          number: xmlData.number,
-          issuer: xmlData.issuer,
-          access_key: xmlData.accessKey,
-          digest_value: xmlData.digestValue,
-          total_value: xmlData.total,
-          status: 'PENDING',
-          created_at: new Date().toISOString(),
-          tokens: xmlData.items.map((item: any, index: number) => ({
-            sku: item.sku,
-            quantity: item.qty,
-            status: 'AVAILABLE',
-            is_heavy: item.isHeavy
-          }))
-        });
-        return mockId;
-      }
       throw e;
     }
   },
@@ -172,7 +136,6 @@ export const wmsService = {
   },
 
   async listActiveXMLs(organizationId: string) {
-    const localData = getMockCache();
     try {
       if (!supabase) throw new Error("Supabase client not initialized");
       
@@ -183,26 +146,9 @@ export const wmsService = {
         .in("status", ["PENDING", "PARTIAL"]);
       
       if (error) throw error;
-      // Merge remote data with local mock cache
-      return [...(data || []), ...localData] as any[];
+      return data as any[];
     } catch (e) {
       console.error('listActiveXMLs Error:', e);
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn('Dev Mode: Supabase error ignored, returning local mock cache');
-        return [
-          {
-            id: 'mock-initial',
-            number: '0001',
-            issuer: 'Meta Vidros (Exemplo Inicial)',
-            access_key: '00000000000000000000000000000000000000000000',
-            digest_value: 'HASH-EXEMPLO',
-            total_value: 0,
-            status: 'PENDING',
-            tokens: []
-          },
-          ...localData
-        ];
-      }
       throw e;
     }
   },
