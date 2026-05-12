@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/AuthContext';
 import { wmsService } from '@/lib/wmsService';
+import { fulfillTokenUseCase } from '@/domains/workflow/useCases/FulfillTokenUseCase';
 import { toast } from 'sonner';
 import { 
   Dialog,
@@ -117,7 +118,13 @@ export default function StoreSales() {
         if (item.isDelivered) {
           const token = tokens.find(t => t.sku === item.sku);
           if (token) {
-            await wmsService.executeDelivery(token.id, profile.id, currentUnit?.id || 'STORE_UNIT', receiverName, profile.fullName);
+            await fulfillTokenUseCase.execute({
+              tokenCode: token.id, 
+              userId: profile.id, 
+              unitId: currentUnit?.id || 'STORE_UNIT', 
+              receiverName, 
+              staffName: profile.fullName
+            });
           }
         }
       }

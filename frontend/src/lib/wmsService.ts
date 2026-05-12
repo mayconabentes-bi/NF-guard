@@ -61,79 +61,7 @@ export const wmsService = {
     }
   },
 
-  // Blind Verification: Checks a token status
-  async validateToken(tokenCode: string, unitId: string) {
-    const { data, error } = await supabase
-      .from("withdrawal_tokens")
-      .select("*")
-      .eq("id", tokenCode)
-      .single();
-    
-    if (error || !data) {
-      throw new Error("Token inexistente ou inválido.");
-    }
 
-    if (data.status === 'DELIVERED') {
-      // Log Fraud Attempt
-      await automationService.logEvent({
-        entityId: tokenCode,
-        entityType: 'WITHDRAWAL_TOKEN' as any,
-        action: 'FRAUD_ATTEMPT_DOUBLE_DIPPING',
-        userId: (await supabase.auth.getUser()).data.user?.id || 'SYSTEM',
-        unitId,
-        organizationId: data.company_id,
-        metadata: {
-          originalDelivery: data.delivery_audit
-        }
-      });
-      throw new Error(`FRAUDE DETECTADA: Item já entregue em ${data.delivery_audit?.timestamp} na unidade ${data.delivery_audit?.unitId}`);
-    }
-
-    return data;
-  },
-
-  // Finalize delivery (Double-dipping protection)
-  async executeDelivery(tokenCode: string, userId: string, unitId: string, receiverName?: string, staffName?: string) {
-    // 1. Update status atomically
-    const { data: tokenData, error: fetchError } = await supabase
-      .from("withdrawal_tokens")
-      .select("company_id, sku, quantity")
-      .eq("id", tokenCode)
-      .single();
-
-    if (fetchError) throw fetchError;
-
-    const { error: updateError } = await supabase
-      .from("withdrawal_tokens")
-      .update({
-        status: 'DELIVERED',
-        delivery_audit: {
-          unitId,
-          userId,
-          staffName: staffName || 'SISTEMA',
-          receiverName: receiverName || 'NÃO INFORMADO',
-          timestamp: new Date().toISOString(),
-          digestValidation: true
-        }
-      })
-      .eq("id", tokenCode);
-
-    if (updateError) throw updateError;
-
-    // Log Successful Delivery
-    await automationService.logEvent({
-      entityId: tokenCode,
-      entityType: 'WITHDRAWAL_TOKEN' as any,
-      action: 'WMS_DELIVERY_COMPLETED',
-      userId,
-      unitId,
-      organizationId: tokenData.company_id,
-      metadata: { 
-        sku: tokenData.sku,
-        qty: tokenData.quantity
-      }
-    });
-  },
 
   async listActiveXMLs(organizationId: string) {
     try {

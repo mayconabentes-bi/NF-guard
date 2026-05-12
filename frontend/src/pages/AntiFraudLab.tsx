@@ -18,8 +18,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/lib/AuthContext';
-import { wmsService } from '@/lib/wmsService';
 import { automationService } from '@/services/automationService';
+import { wmsService } from '@/lib/wmsService';
+import { validateTokenUseCase } from '@/domains/workflow/useCases/ValidateTokenUseCase';
+import { fulfillTokenUseCase } from '@/domains/workflow/useCases/FulfillTokenUseCase';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
@@ -74,13 +76,13 @@ export default function AntiFraudLab() {
     addLog('info', 'Iniciando PROTOCOLO DE ENTREGA LEGÍTIMA...');
     
     try {
-      await wmsService.executeDelivery(
-        lastTokenId, 
-        profile.id, 
-        currentUnit?.id || 'LAB_UNIT', 
-        'RECEBEDOR_TESTE', 
-        profile.fullName
-      );
+      await fulfillTokenUseCase.execute({
+        tokenCode: lastTokenId, 
+        userId: profile.id, 
+        unitId: currentUnit?.id || 'LAB_UNIT', 
+        receiverName: 'RECEBEDOR_TESTE', 
+        staffName: profile.fullName
+      });
       
       addLog('success', 'Entrega finalizada com Triple-Signature.');
       addLog('success', 'Evento de rastreabilidade imutável gravado.');

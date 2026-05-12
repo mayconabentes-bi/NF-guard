@@ -19,6 +19,8 @@ import {
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/AuthContext';
 import { wmsService } from '@/lib/wmsService';
+import { validateTokenUseCase } from '@/domains/workflow/useCases/ValidateTokenUseCase';
+import { fulfillTokenUseCase } from '@/domains/workflow/useCases/FulfillTokenUseCase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -119,12 +121,17 @@ export default function WMSDistributed() {
   };
 
   const handleVerify = async () => {
-    if (!currentUnit) {
+    if (!currentUnit || !profile) {
       toast.error("Selecione uma UNIDADE no cabeçalho primeiro!");
       return;
     }
     try {
-      const res = await wmsService.validateToken(scanCode, currentUnit.id);
+      const res = await validateTokenUseCase.execute({
+        tokenCode: scanCode, 
+        unitId: currentUnit.id,
+        userId: profile.id,
+        expectedUnitType: 'GALPAO'
+      });
       setVerificationResult(res);
       toast.success("Token Válido - Carga Liberada");
     } catch (e: any) {
@@ -149,7 +156,13 @@ export default function WMSDistributed() {
     setIsLoading(true);
     try {
       const codeToUse = selectedTokenId || scanCode;
-      await wmsService.executeDelivery(codeToUse, profile.id, currentUnit.id, receiverName, profile.fullName);
+      await fulfillTokenUseCase.execute({
+        tokenCode: codeToUse, 
+        userId: profile.id, 
+        unitId: currentUnit.id, 
+        receiverName, 
+        staffName: profile.fullName
+      });
       toast.success("Baixa Realizada com Sucesso! Registro imutável gerado.");
       
       setVerificationResult(null);
