@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+  <NFe>
+    <infNFe Id="NFe35230500000000000000550010000000021000000020" versao="4.00">
+      <ide>
+        <cUF>35</cUF>
+        <cNF>00000002</cNF>
+        <natOp>Venda de Mercadoria</natOp>
+        <mod>55</mod>
+        <serie>1</serie>
+        <nNF>12346</nNF>
+        <dhEmi>2023-05-12T10:00:00-03:00</dhEmi>
+        <tpNF>1</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>3550308</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>0</cDV>
+        <tpAmb>2</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>1</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>4.00</verProc>
+      </ide>
+      <emit>
+        <CNPJ>00000000000191</CNPJ>
+        <xNome>EMITENTE TESTE LTDA</xNome>
+        <xFant>TESTE EMITENTE</xFant>
+      </emit>
+      <det nItem="1">
+        <prod>
+          <cProd>SKU-PARTIAL</cProd>
+          <cEAN>7890000000012</cEAN>
+          <xProd>PRODUTO PARA TESTE PARCIAL</xProd>
+          <NCM>12345678</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>24.0000</qCom>
+          <vUnCom>10.0000</vUnCom>
+          <vProd>240.00</vProd>
+        </prod>
+      </det>
+      <total>
+        <ICMSTot>
+          <vNF>240.00</vNF>
+        </ICMSTot>
+      </total>
+    </infNFe>
+    <protNFe versao="4.00">
+      <infProt>
+        <tpAmb>2</tpAmb>
+        <chNFe>35230500000000000000550010000000021000000020</chNFe>
+        <dhRecbto>2023-05-12T10:05:00-03:00</dhRecbto>
+        <nProt>135230000000002</nProt>
+        <cStat>100</cStat>
+        <xMotivo>Autorizado o uso da NF-e</xMotivo>
+      </infProt>
+    </protNFe>
+  </NFe>
+</nfeProc>

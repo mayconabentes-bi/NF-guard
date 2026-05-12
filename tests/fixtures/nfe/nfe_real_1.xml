@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+  <NFe>
+    <infNFe Id="NFe35230500000000000000550010000000011000000010" versao="4.00">
+      <ide>
+        <cUF>35</cUF>
+        <cNF>00000001</cNF>
+        <natOp>Venda de Mercadoria</natOp>
+        <mod>55</mod>
+        <serie>1</serie>
+        <nNF>12345</nNF>
+        <dhEmi>2023-05-11T16:00:00-03:00</dhEmi>
+        <tpNF>1</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>3550308</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>0</cDV>
+        <tpAmb>2</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>1</indFinal>
+        <indPres>1</indPres>
+        <procEmi>0</procEmi>
+        <verProc>4.00</verProc>
+      </ide>
+      <emit>
+        <CNPJ>00000000000191</CNPJ>
+        <xNome>EMITENTE TESTE LTDA</xNome>
+        <xFant>TESTE EMITENTE</xFant>
+      </emit>
+      <det nItem="1">
+        <prod>
+          <cProd>SKU001</cProd>
+          <cEAN>7890000000012</cEAN>
+          <xProd>PRODUTO DE TESTE 01</xProd>
+          <NCM>12345678</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>UN</uCom>
+          <qCom>15.0000</qCom>
+          <vUnCom>10.0000</vUnCom>
+          <vProd>150.00</vProd>
+        </prod>
+      </det>
+      <det nItem="2">
+        <prod>
+          <cProd>SKU002</cProd>
+          <cEAN>7890000000029</cEAN>
+          <xProd>PRODUTO DE TESTE 02 (PESADO)</xProd>
+          <NCM>87654321</NCM>
+          <CFOP>5102</CFOP>
+          <uCom>KG</uCom>
+          <qCom>5.0000</qCom>
+          <vUnCom>20.0000</vUnCom>
+          <vProd>100.00</vProd>
+        </prod>
+      </det>
+      <total>
+        <ICMSTot>
+          <vBC>0.00</vBC>
+          <vICMS>0.00</vICMS>
+          <vICMSDeson>0.00</vICMSDeson>
+          <vFCP>0.00</vFCP>
+          <vBCST>0.00</vBCST>
+          <vST>0.00</vST>
+          <vFCPST>0.00</vFCPST>
+          <vFCPSTRet>0.00</vFCPSTRet>
+          <vProd>250.00</vProd>
+          <vFrete>0.00</vFrete>
+          <vSeg>0.00</vSeg>
+          <vDesc>0.00</vDesc>
+          <vII>0.00</vII>
+          <vIPI>0.00</vIPI>
+          <vIPIDevol>0.00</vIPIDevol>
+          <vPIS>0.00</vPIS>
+          <vCOFINS>0.00</vCOFINS>
+          <vOutro>0.00</vOutro>
+          <vNF>250.00</vNF>
+        </ICMSTot>
+      </total>
+    </infNFe>
+    <protNFe versao="4.00">
+      <infProt>
+        <tpAmb>2</tpAmb>
+        <verProc>4.00</verProc>
+        <chNFe>35230500000000000000550010000000011000000010</chNFe>
+        <dhRecbto>2023-05-11T16:05:00-03:00</dhRecbto>
+        <nProt>135230000000001</nProt>
+        <digVal>H6jK8L2M9nP4qR7sT1uV3wX5yZ==</digVal>
+        <cStat>100</cStat>
+        <xMotivo>Autorizado o uso da NF-e</xMotivo>
+      </infProt>
+    </protNFe>
+  </NFe>
+</nfeProc>

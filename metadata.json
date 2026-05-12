@@ -1,0 +1,8 @@
+{
+  "name": "Meta ERP - GESTÃO DE ALMOXARIFADO",
+  "description": "Enterprise-grade SaaS for industrial inventory and warehouse management with intelligent mapping and real-time auditing.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": []
+}

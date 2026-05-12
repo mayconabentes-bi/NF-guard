@@ -1,0 +1,24 @@
+{
+  "name": "erp-meta-workspace",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.6",
+    "concurrently": "^9.2.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.2",
+    "vitest": "^4.1.6"
+  },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-win32-x64-msvc": "^4.3.0"
+  }
+}

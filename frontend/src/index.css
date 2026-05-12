@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Enterprise Blue/Slate Palette - Industry Standard for ERP */
+    --background: #f8fafc;
+    --foreground: #0f172a;
+
+    --card: #ffffff;
+    --card-foreground: #010409;
+
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+
+    --primary: #1e40af; /* Deeper Professional Blue */
+    --primary-foreground: #ffffff;
+
+    --secondary: #f1f5f9;
+    --secondary-foreground: #1e293b;
+
+    --muted: #f1f5f9;
+    --muted-foreground: #475569;
+
+    --accent: #f1f5f9;
+    --accent-foreground: #1e293b;
+
+    --destructive: #be123c;
+    --destructive-foreground: #ffffff;
+
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #3b82f6;
+
+    --radius: 0.5rem; /* Standard rounded corners for professional ERP */
+  }
+
+  .dark {
+    --background: #020617;
+    --foreground: #f8fafc;
+
+    --card: #0f172a;
+    --card-foreground: #f8fafc;
+
+    --popover: #020617;
+    --popover-foreground: #f8fafc;
+
+    --primary: #3b82f6;
+    --primary-foreground: #0f172a;
+
+    --secondary: #1e293b;
+    --secondary-foreground: #f8fafc;
+
+    --muted: #1e40af20;
+    --muted-foreground: #94a3b8;
+
+    --accent: #1e293b;
+    --accent-foreground: #f8fafc;
+
+    --destructive: #ef4444;
+    --destructive-foreground: #fafafa;
+
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: #3b82f6;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased font-sans;
+  }
+}
+
+/* Custom Warehouse Styles */
+.sidebar-grid {
+  background-image: 
+    linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.industrial-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+}
+
+.data-row {
+  @apply transition-colors duration-150;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-row:hover {
+  @apply bg-accent;
+}
+
+.mono-display {
+  @apply font-mono tracking-tighter;
+}
