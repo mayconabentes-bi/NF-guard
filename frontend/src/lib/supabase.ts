@@ -6,12 +6,7 @@ const supabaseAnonKey = (import.meta as any).env.VITE_SUPABASE_ANON_KEY || '';
 console.log("Supabase URL:", supabaseUrl);
 console.log("Supabase Key Length:", supabaseAnonKey?.length || 0);
 
-// Network Health Check
-if (supabaseUrl) {
-  fetch(`${supabaseUrl}/auth/v1/health`)
-    .then(r => console.log("Supabase Health Check:", r.status === 200 ? "OK ✅" : `Error ❌ (${r.status})`))
-    .catch(e => console.error("Supabase Network Error 🚨: Não foi possível alcançar o servidor. Verifique sua conexão ou se o domínio está bloqueado.", e));
-}
+// Supabase client initialization
 
 export const supabase = supabaseUrl && supabaseAnonKey 
   ? createClient(supabaseUrl, supabaseAnonKey)
